@@ -1,0 +1,8 @@
+#gitignore file
+
+*.class
+*.iml
+*.xml
+.idea/
+out/
+IntroductionToProgramming.iml
