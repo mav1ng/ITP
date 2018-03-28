@@ -49,49 +49,46 @@ public class Member
         if (projectList.isEmpty())
         {
             throw new Exception("ERROR: No projects saved! You have to create a project first!");
-        }
-
-        System.out.println("\n\tAvailable Projects: ");
-        for (String name: projectList.keySet())
+        } else
         {
-            System.out.println("\t" + name);
-        }
-        Scanner sc = new Scanner(System.in).useLocale(Locale.ENGLISH);
-        System.out.print("\n\tEnter the project name: ");
 
-        currentProjectName = sc.nextLine();
-
-        while (!(projectList.keySet().contains(currentProjectName)))
-        {
-            System.out.println("\tError: Please enter a valid project name!\n");
             System.out.println("\n\tAvailable Projects: ");
+            for (String name : projectList.keySet()) {
+                System.out.println("\t" + name);
+            }
+            Scanner sc = new Scanner(System.in).useLocale(Locale.ENGLISH);
+            System.out.print("\n\tEnter the project name: ");
 
-            for (String name: projectList.keySet())
-            {
-                System.out.println("\t\t" + name);
+            currentProjectName = sc.nextLine();
+
+            while (!(projectList.keySet().contains(currentProjectName))) {
+                System.out.println("\tError: Please enter a valid project name!\n");
+                System.out.println("\n\tAvailable Projects: ");
+
+                for (String name : projectList.keySet()) {
+                    System.out.println("\t\t" + name);
+                }
+
+                System.out.print("\n\tEnter the project name: ");
+                currentProjectName = sc.nextLine();
             }
 
-            System.out.print("\n\tEnter the project name: ");
-            currentProjectName = sc.nextLine();
-        }
+            currentProject = projectList.get(currentProjectName);
+            System.out.println("\tThere are " + currentProject.getTeamSize() + " team members.\n\n");
 
-        currentProject = projectList.get(currentProjectName);
-        System.out.println("\tThere are " + currentProject.getTeamSize() + " team members.\n\n");
+            enterVotes(currentProject);
 
-        enterVotes(currentProject);
+            System.out.print("\n\tYou successfully allocated the votes!\n" +
+                    "\tPress enter to continue...");
 
-        System.out.print("\n\tYou successfully allocated the votes!\n" +
-                "\tPress enter to continue...");
+            //waiting for the user to enter any key to continue the program
+            try {
+                Utilities.finishMethod();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("There was no user input!");
+            }
 
-        //waiting for the user to enter any key to continue the program
-        try
-        {
-            Utilities.finishMethod();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            System.out.println("There was no user input!");
         }
 
     }

@@ -21,6 +21,7 @@ public class MainProgram
         //information from that HashMap should be stored in the text file later
         HashMap<String, Project> projectList = new HashMap<String, Project>();
 
+/**
         try
         {
             Utilities.start(projectList);
@@ -28,6 +29,8 @@ public class MainProgram
         {
             System.out.println(e);
         }
+ **/
+
 
 
         Scanner scan = new Scanner(System.in);
@@ -71,6 +74,7 @@ public class MainProgram
                     {
                         System.out.println(e);
                     }
+                    break;
 
                 case 'q':
                     //Saving to a file
@@ -82,6 +86,7 @@ public class MainProgram
                         System.out.println(e);
                         e.printStackTrace();
                     }
+                    break;
 
                 default:
                     break;

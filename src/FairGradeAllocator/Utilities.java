@@ -3,6 +3,7 @@ package FairGradeAllocator;
 import java.io.*;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -123,7 +124,8 @@ public class Utilities
 
             while ((line = br.readLine()) != null)
             {
-                Scanner sc = new Scanner(line);
+                Scanner sc = new Scanner(line).useDelimiter(",");
+                sc.useLocale(Locale.ENGLISH);
                 try
                 {
                     String currentProjectName = sc.next();
