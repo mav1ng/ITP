@@ -17,7 +17,7 @@ public class MainProgram
     {
 
         //creating the HashMap in which the several projects will be stored
-        //information from that HashMap should be stored in the text file later 
+        //information from that HashMap should be stored in the text file later
         HashMap<String, Project> projectList = new HashMap<String, Project>();
 
 
