@@ -105,7 +105,8 @@ public class Project
             System.out.print("\t\tEnter the name of team member " + i + ": ");
             currentMemberName = sc.nextLine();
 
-            while (currentMemberName.trim().isEmpty() || currentProject.nameList.contains(currentMemberName))
+            while (currentMemberName.trim().isEmpty() || currentProject.nameList.contains(currentMemberName) ||
+                    currentMemberName.equals("-1"))
             {
                 System.out.println("\t\tEnter a valid name! Don't use the same name twice!");
                 System.out.print("\t\tEnter the name of team member " + i + ": ");
