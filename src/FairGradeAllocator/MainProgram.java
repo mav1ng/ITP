@@ -16,9 +16,18 @@ public class MainProgram
     public static void main(String[] args)
     {
 
+
         //creating the HashMap in which the several projects will be stored
         //information from that HashMap should be stored in the text file later
         HashMap<String, Project> projectList = new HashMap<String, Project>();
+
+        try
+        {
+            start();
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
 
 
         Scanner scan = new Scanner(System.in);

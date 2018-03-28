@@ -1,10 +1,8 @@
 package FairGradeAllocator;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.util.Scanner;
 
 /**
  * Class in which all the essential methods the application is using in the main method
@@ -111,6 +109,28 @@ public class Utilities
         System.in.read();
         //Ignores any input the user might have given before pressing enter
         System.in.skip((long)(System.in.available()));
+    }
+
+    public static void start(HashMap<String, Project> projectList) throws IOException
+    {
+        File saveFile = new File("projects.txt");
+        if (saveFile.exists() && !saveFile.isDirectory())
+        {
+            FileReader fr = new FileReader(saveFile);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null)
+            {
+                Scanner sc = new Scanner(line);
+                try
+                {
+
+                    Project currentProject = new Project()
+                }
+
+            }
+        }
+
     }
 
 }
