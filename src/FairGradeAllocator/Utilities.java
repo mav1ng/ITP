@@ -113,6 +113,15 @@ public class Utilities
         System.in.skip((long)(System.in.available()));
     }
 
+
+    /**
+     * Method that loads all the projects the user has created and the allocated votes by
+     * reading the information form the textfile projects.txt automatically when the program
+     * has been started.
+     * @param projectList HashMap<String, Project> which is a map where all the information
+     *                    will be loaded into
+     * @throws IOException General I/O Exception might be thrown
+     */
     public static void start(HashMap<String, Project> projectList) throws IOException
     {
         File saveFile = new File("projects.txt");
@@ -126,8 +135,8 @@ public class Utilities
             {
                 Scanner sc = new Scanner(line).useDelimiter(",");
                 sc.useLocale(Locale.ENGLISH);
-                try
-                {
+                //try
+                //{
                     String currentProjectName = sc.next();
                     int currentTeamSize = sc.nextInt();
                     Project currentProject = new Project(currentProjectName, currentTeamSize);
@@ -149,27 +158,34 @@ public class Utilities
                         HashMap<String, Double> currentVotingMapMember
                                 = new HashMap<String, Double>();
 
-                        for (int j = 0; j < currentTeamSize - 1; j++)
+                        if (!sc.hasNext("-1"))
                         {
-                            currentVotingMapMember.put(sc.next(), sc.nextDouble());
-                        }
+                            for (int j = 0; j < currentTeamSize - 1; j++) {
+                                currentVotingMapMember.put(sc.next(), sc.nextDouble());
+                            }
 
-                        currentVotingMap.put(currentProjectName, currentVotingMapMember);
-                        currentMember.setVoteMap(currentVotingMap);
+                            currentVotingMap.put(currentProjectName, currentVotingMapMember);
+                            currentMember.setVoteMap(currentVotingMap);
+                        } else
+                        {
+                            sc.next();
+                        }
                     }
 
                     projectList.put(currentProjectName, currentProject);
 
-                } catch (InputMismatchException e)
-                {
-                    System.out.print(e);
-                    System.out.println("The save file was not formatted correctly. Check save() method!");
-                }
+               // } catch (InputMismatchException e)
+                //{
+                  //  System.out.println(e);
+                   // System.out.println("The save file was not formatted correctly. Check save() method!");
+                //}
 
                 sc.close();
-                br.close();
 
             }
+
+            br.close();
+
         }
 
     }
