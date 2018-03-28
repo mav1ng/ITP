@@ -23,8 +23,8 @@ public class MainProgram
 
         try
         {
-            start();
-        } catch (Exception e)
+            Utilities.start(projectList);
+        } catch (IOException e)
         {
             System.out.println(e);
         }

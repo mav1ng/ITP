@@ -2,6 +2,7 @@ package FairGradeAllocator;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -119,14 +120,52 @@ public class Utilities
             FileReader fr = new FileReader(saveFile);
             BufferedReader br = new BufferedReader(fr);
             String line;
+
             while ((line = br.readLine()) != null)
             {
                 Scanner sc = new Scanner(line);
                 try
                 {
+                    String currentProjectName = sc.next();
+                    int currentTeamSize = sc.nextInt();
+                    Project currentProject = new Project(currentProjectName, currentTeamSize);
 
-                    Project currentProject = new Project()
+                    for (int i = 1; i <= currentTeamSize; i++)
+                    {
+                        Member currentMember = new Member(sc.next());
+                        currentProject.addTeamMember(currentMember);
+                    }
+
+                    for (int i = 0; i < currentTeamSize; i++)
+                    {
+                        sc.next();
+                        Member currentMember = currentProject.getTeamList().get(i);
+
+                        HashMap<String, HashMap<String, Double>> currentVotingMap
+                                = new HashMap<String, HashMap<String, Double>>();
+
+                        HashMap<String, Double> currentVotingMapMember
+                                = new HashMap<String, Double>();
+
+                        for (int j = 0; j < currentTeamSize - 1; j++)
+                        {
+                            currentVotingMapMember.put(sc.next(), sc.nextDouble());
+                        }
+
+                        currentVotingMap.put(currentProjectName, currentVotingMapMember);
+                        currentMember.setVoteMap(currentVotingMap);
+                    }
+
+                    projectList.put(currentProjectName, currentProject);
+
+                } catch (InputMismatchException e)
+                {
+                    System.out.print(e);
+                    System.out.println("The save file was not formatted correctly. Check save() method!");
                 }
+
+                sc.close();
+                br.close();
 
             }
         }

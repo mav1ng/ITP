@@ -27,19 +27,6 @@ public class Project
     final private static int minTeamSize = 2;
 
 
-
-    /**
-     * Constructor to create a Project object name has to be
-     * specified
-     * @param name name of the Project
-     */
-    public Project(String name)
-    {
-        this.name = name;
-    }
-
-
-
     /**
      * Constructor to create a Project object name and teamSize have to be
      * specified
