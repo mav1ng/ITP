@@ -74,6 +74,16 @@ public class MainProgram
                     }
                     break;
 
+                case 's':
+                    try
+                    {
+                        Project.show(projectList);
+                    } catch (Exception e)
+                    {
+                        System.out.println(e);
+                    }
+                    break;
+
                 case 'q':
                     //Saving to a file
                     try

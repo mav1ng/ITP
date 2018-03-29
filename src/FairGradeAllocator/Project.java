@@ -2,7 +2,9 @@ package FairGradeAllocator;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.HashMap;
 
 /**
  * Class that saves information about a Project and stores the information
@@ -136,6 +138,50 @@ public class Project
 
         return currentProject;
 
+    }
+
+    /**
+     * Method that prints out the allocated grades for the members of a specified project that
+     * has already been created
+     * @param projectList HashMap<String, Project> HashMap of created projects taking in the name of the
+     *                    project as a key and the project itself as a value
+     * @throws Exception throws exception if Utilities.chooseProject() throws Exception
+     */
+    public static void show(HashMap<String, Project> projectList) throws Exception
+    {
+        Project currentProject = Utilities.chooseProject(projectList);
+        System.out.println("\tThere are " + currentProject.getTeamSize() + " team members.\n\n");
+
+        HashMap<String, Double> allocatedGrades = allocateGrad(currentProject);
+
+        System.out.println("\tThe point allocation based on votes is: \n");
+
+        for (String name: allocatedGrades.keySet())
+        {
+            System.out.println("\t\t" + name + "\t" + allocatedGrades.get(name));
+        }
+
+        try
+        {
+            Utilities.finishMethod();
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+    }
+
+
+    /**
+     *
+     * not finished
+     *
+     * @param currentProject
+     * @return
+     */
+    private static HashMap<String, Double> allocateGrad(Project currentProject)
+    {
+        return null;
     }
 
 

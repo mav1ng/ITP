@@ -190,4 +190,43 @@ public class Utilities
 
     }
 
+    /**
+     * Method that askes the user to specify the current project.
+     * @param projectList HashMap<String, Project> HashMap of created projects taking in the name of the
+     *                    project as a key and the project itself as a value
+     * @return returns current project
+     * @throws Exception throws Exception if there are no projects created already
+     */
+    public static Project chooseProject(HashMap<String, Project> projectList) throws Exception
+    {
+        if (projectList.isEmpty())
+        {
+            throw new Exception("ERROR: No projects saved! You have to create a project first!");
+        } else {
+
+            System.out.println("\n\tAvailable Projects: ");
+            for (String name : projectList.keySet()) {
+                System.out.println("\t" + name);
+            }
+            Scanner sc = new Scanner(System.in).useLocale(Locale.ENGLISH);
+            System.out.print("\n\tEnter the project name: ");
+
+            String currentProjectName = sc.nextLine();
+
+            while (!(projectList.keySet().contains(currentProjectName))) {
+                System.out.println("\tError: Please enter a valid project name!\n");
+                System.out.println("\n\tAvailable Projects: ");
+
+                for (String name : projectList.keySet()) {
+                    System.out.println("\t\t" + name);
+                }
+
+                System.out.print("\n\tEnter the project name: ");
+                currentProjectName = sc.nextLine();
+            }
+
+            return projectList.get(currentProjectName);
+        }
+    }
+
 }

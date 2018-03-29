@@ -40,40 +40,11 @@ public class Member
      * @throws Exception throws Exception if there are no existing projects and then
      * reminds the user to create a project first
      */
-    public static void voting(HashMap<String, Project> projectList) throws Exception
+    public static void voting(HashMap<String, Project> projectList)
     {
-
-        Project currentProject;
-        String currentProjectName;
-
-        if (projectList.isEmpty())
+        try
         {
-            throw new Exception("ERROR: No projects saved! You have to create a project first!");
-        } else
-        {
-
-            System.out.println("\n\tAvailable Projects: ");
-            for (String name : projectList.keySet()) {
-                System.out.println("\t" + name);
-            }
-            Scanner sc = new Scanner(System.in).useLocale(Locale.ENGLISH);
-            System.out.print("\n\tEnter the project name: ");
-
-            currentProjectName = sc.nextLine();
-
-            while (!(projectList.keySet().contains(currentProjectName))) {
-                System.out.println("\tError: Please enter a valid project name!\n");
-                System.out.println("\n\tAvailable Projects: ");
-
-                for (String name : projectList.keySet()) {
-                    System.out.println("\t\t" + name);
-                }
-
-                System.out.print("\n\tEnter the project name: ");
-                currentProjectName = sc.nextLine();
-            }
-
-            currentProject = projectList.get(currentProjectName);
+            Project currentProject = Utilities.chooseProject(projectList);
             System.out.println("\tThere are " + currentProject.getTeamSize() + " team members.\n\n");
 
             enterVotes(currentProject);
@@ -82,16 +53,20 @@ public class Member
                     "\tPress enter to continue...");
 
             //waiting for the user to enter any key to continue the program
-            try {
-                Utilities.finishMethod();
-            } catch (IOException e) {
+
+            Utilities.finishMethod();
+        } catch (IOException e)
+        {
                 e.printStackTrace();
                 System.out.println("There was no user input!");
-            }
-
+        } catch (Exception e)
+        {
+                e.printStackTrace();
+                System.out.println("e");
         }
 
     }
+
 
     /**
      * method that represents the step of asking the user for a points input
