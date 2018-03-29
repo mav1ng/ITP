@@ -135,8 +135,8 @@ public class Utilities
             {
                 Scanner sc = new Scanner(line).useDelimiter(",");
                 sc.useLocale(Locale.ENGLISH);
-                //try
-                //{
+                try
+                {
                     String currentProjectName = sc.next();
                     int currentTeamSize = sc.nextInt();
                     Project currentProject = new Project(currentProjectName, currentTeamSize);
@@ -174,11 +174,11 @@ public class Utilities
 
                     projectList.put(currentProjectName, currentProject);
 
-               // } catch (InputMismatchException e)
-                //{
-                  //  System.out.println(e);
-                   // System.out.println("The save file was not formatted correctly. Check save() method!");
-                //}
+                } catch (InputMismatchException e)
+                {
+                    System.out.println(e);
+                    System.out.println("The save file was not formatted correctly. Check save() method!");
+                }
 
                 sc.close();
 
