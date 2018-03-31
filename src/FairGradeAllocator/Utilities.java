@@ -202,8 +202,8 @@ public class Utilities
         if (projectList.isEmpty())
         {
             throw new Exception("ERROR: No projects saved! You have to create a project first!");
-        } else {
-
+        } else
+        {
             System.out.println("\n\tAvailable Projects: ");
             for (String name : projectList.keySet()) {
                 System.out.println("\t" + name);
