@@ -1,10 +1,7 @@
 package FairGradeAllocator;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class in which all the essential methods the application is using in the main method
@@ -227,6 +224,39 @@ public class Utilities
 
             return projectList.get(currentProjectName);
         }
+    }
+
+    public static HashMap<String, Double> gradeCalculator(Project p)
+    {
+        Double[][] voteMatrix = new Double[3][3];
+        Double[][] voteRatioMatrix = new Double[3][3];
+
+        ArrayList<Member> teamList = p.getTeamList();
+
+        for (int i = 0; i < teamList.size(); i++) {
+            for (int j = 0; j < teamList.size(); j ++) {
+                if (i != j) {
+                    voteMatrix[i][j] = (teamList.get(i).getVoteMap().get(p.getName()).get(teamList.get(j).getName())/100);
+                }
+            }
+        }
+
+        voteRatioMatrix[0][1] = (voteMatrix[0][1]/voteMatrix[0][2]);
+        voteRatioMatrix[0][2] = (voteMatrix[0][2]/voteMatrix[0][1]);
+        voteRatioMatrix[1][0] = (voteMatrix[1][0]/voteMatrix[1][2]);
+        voteRatioMatrix[1][2] = (voteMatrix[1][2]/voteMatrix[1][0]);
+        voteRatioMatrix[2][0] = (voteMatrix[2][0]/voteMatrix[2][1]);
+        voteRatioMatrix[2][1] = (voteMatrix[2][1]/voteMatrix[2][0]);
+
+
+        HashMap<String, Double> shares = new HashMap<>();
+        shares.put(teamList.get(0).getName(), 1/(1+voteRatioMatrix[1][2]+voteRatioMatrix[2][1]));
+        shares.put(teamList.get(1).getName(), 1/(1+voteRatioMatrix[0][2]+voteRatioMatrix[2][0]));
+        shares.put(teamList.get(2).getName(), 1/(1+voteRatioMatrix[0][1]+voteRatioMatrix[1][0]));
+
+        return shares;
+
+
     }
 
 }

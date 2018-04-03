@@ -181,7 +181,7 @@ public class Project
      */
     private static HashMap<String, Double> allocateGrad(Project currentProject)
     {
-        return null;
+        return Utilities.gradeCalculator(currentProject);
     }
 
 
