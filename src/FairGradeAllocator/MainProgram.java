@@ -42,7 +42,7 @@ public class MainProgram
             System.out.println("\nWelcome to Split-it\n");
             System.out.println("\tAbout (A)");
             System.out.println("\tCreate Project (C)");
-            System.out.println("\tEnter Votes (V)");
+            System.out.println("\tEnter/Edit Votes (V)");
             System.out.println("\tShow Project (S)");
             System.out.println("\tQuit (Q)");
             System.out.print("\n\tPlease choose an option: ");
@@ -67,8 +67,7 @@ public class MainProgram
                     {
                         //Allocates the Votes for a specified project
                         Member.voting(projectList);
-                    }
-                    catch (Exception e)
+                    } catch (Exception e)
                     {
                         System.out.println(e);
                     }
@@ -78,6 +77,13 @@ public class MainProgram
                     try
                     {
                         Project.show(projectList);
+                    } catch (NullPointerException n)
+                    {
+                        System.out.println("You have to allocate the votes for the project first!");
+                    } catch (ArrayIndexOutOfBoundsException a)
+                    {
+                        System.out.println("The allocate grades function of this program only works for groups of 3!" +
+                                "\nThis group consists of more than 3 members.");
                     } catch (Exception e)
                     {
                         System.out.println(e);

@@ -108,10 +108,10 @@ public class Member
                             sc.nextLine();
                         }
 
-                        while (currentVote < minPoints || currentVote > maxPoints)
+                        while (currentVote <= minPoints || currentVote >= maxPoints)
                         {
                             currentVote = -1;
-                            System.out.println("\n\t\tPlease enter a valid Vote number!");
+                            System.out.println("\n\t\tPlease enter a valid Vote number! (0 < vote number < 100)");
                             System.out.print("\t\tEnter " + mem.getName() + "'s points for " +
                                     other.getName() + ":\t\t");
 

@@ -26,7 +26,7 @@ public class Project
     private ArrayList<String> nameList = new ArrayList<String>();
 
     final private static int maxTeamSize = 10000;
-    final private static int minTeamSize = 2;
+    final private static int minTeamSize = 3;
 
 
     /**
@@ -147,12 +147,12 @@ public class Project
      *                    project as a key and the project itself as a value
      * @throws Exception throws exception if Utilities.chooseProject() throws Exception
      */
-    public static void show(HashMap<String, Project> projectList) throws Exception
+    public static void show(HashMap<String, Project> projectList) throws Exception, NullPointerException
     {
         Project currentProject = Utilities.chooseProject(projectList);
         System.out.println("\tThere are " + currentProject.getTeamSize() + " team members.\n\n");
 
-        HashMap<String, Double> allocatedGrades = allocateGrad(currentProject);
+        HashMap<String, Double> allocatedGrades = Utilities.gradeCalculator(currentProject);
 
         System.out.println("\tThe point allocation based on votes is: \n");
 
@@ -161,27 +161,19 @@ public class Project
             System.out.println("\t\t" + name + "\t" + allocatedGrades.get(name));
         }
 
+        System.out.print("\n\tPress enter to continue...");
+
+        //waiting for the user to enter any key to continue the program
         try
         {
             Utilities.finishMethod();
-        } catch (Exception e)
+        }
+        catch (IOException e)
         {
-            System.out.println(e);
+            e.printStackTrace();
+            System.out.println("There was no user input!");
         }
 
-    }
-
-
-    /**
-     *
-     * not finished
-     *
-     * @param currentProject
-     * @return
-     */
-    private static HashMap<String, Double> allocateGrad(Project currentProject)
-    {
-        return Utilities.gradeCalculator(currentProject);
     }
 
 

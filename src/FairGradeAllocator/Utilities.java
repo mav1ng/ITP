@@ -226,6 +226,11 @@ public class Utilities
         }
     }
 
+    /**
+     * Method that calculates the allocated shares of a project with exactly three members.
+     * @param p Project for which the grades should be calculated
+     * @return HashMap<String, Double> that contains the calculated shares of the members
+     */
     public static HashMap<String, Double> gradeCalculator(Project p)
     {
         Double[][] voteMatrix = new Double[3][3];
