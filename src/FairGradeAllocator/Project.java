@@ -197,6 +197,34 @@ public class Project
         return output;
     }
 
+    /**
+     * equals and hashCode methods.
+     * @param o Object that should be compared
+     * @return boolean true equal boolean false if not
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Project project = (Project) o;
+
+        if (getTeamSize() != project.getTeamSize()) return false;
+        if (getTeamList() != null ? !getTeamList().equals(project.getTeamList()) : project.getTeamList() != null)
+            return false;
+        if (getName() != null ? !getName().equals(project.getName()) : project.getName() != null) return false;
+        return nameList != null ? nameList.equals(project.nameList) : project.nameList == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getTeamList() != null ? getTeamList().hashCode() : 0;
+        result = 31 * result + getTeamSize();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (nameList != null ? nameList.hashCode() : 0);
+        return result;
+    }
+
 
     //getter and setter methods
 
