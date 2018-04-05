@@ -19,18 +19,17 @@ public class MainProgram
 
         //creating the HashMap in which the several projects will be stored
         //information from that HashMap should be stored in the text file later
-        HashMap<String, Project> projectList = new HashMap<String, Project>();
-
+        HashMap<String, Project> startingList = new HashMap<String, Project>();
 
         try
         {
-            Utilities.start(projectList);
+            FileHandling.start(startingList);
         } catch (IOException e)
         {
             System.out.println(e);
         }
 
-
+        ProjectList projectList  = new ProjectList(startingList);
         Scanner scan = new Scanner(System.in);
         char action = 'a';
 
@@ -58,15 +57,14 @@ public class MainProgram
                 case 'c':
                     //Creates a new project, adds it to the project list
                     // and asks the user to input additional information
-                    Project currentProject = Project.createProject();
-                    projectList.put(currentProject.getName(), currentProject);
+                    projectList.put(Project.createProject(projectList));
                     break;
 
                 case 'v':
                     try
                     {
                         //Allocates the Votes for a specified project
-                        Member.voting(projectList);
+                        Vote.voting(projectList);
                     } catch (Exception e)
                     {
                         System.out.println(e);
@@ -76,7 +74,7 @@ public class MainProgram
                 case 's':
                     try
                     {
-                        Project.show(projectList);
+                        projectList.show();
                     } catch (NullPointerException n)
                     {
                         System.out.println("You have to allocate the votes for the project first!");
@@ -94,7 +92,7 @@ public class MainProgram
                     //Saving to a file
                     try
                     {
-                        Utilities.save(projectList);
+                        FileHandling.save(projectList);
                     } catch (IOException e)
                     {
                         System.out.println(e);

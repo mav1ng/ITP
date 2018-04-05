@@ -2,7 +2,6 @@ package FairGradeAllocator;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.HashMap;
 
@@ -50,20 +49,83 @@ public class Project
      * @return Project returns a Project object which includes an ArrayList of the
      * members the user has entered.
      */
-    public static Project createProject()
+    public static Project createProject(ProjectList pList)
     {
 
+        String currentName = enterProjectName(pList);
+        int currentNumber = enterProjectSize();
+
+        System.out.println();
+
+        Project currentProject = new Project(currentName, currentNumber);
+        currentProject.enterTeamNames();
+
+        System.out.print("\n\tYou successfully created a new project!\n" +
+                "\tPress enter to continue...");
+
+        //waiting for the user to enter any key to continue the program
+        try
+        {
+            Utilities.finishMethod();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            System.out.println("There was no user input!");
+        }
+
+        return currentProject;
+
+    }
+
+
+    /**
+     * Method that checks whether a String for a Project name is valid to be added to a specified ProjectList
+     * @param currentProject String that is checked
+     * @param pList ProjectList to which the Project with the specified name should be added
+     * @return Boolean true if not valid, false if valid
+     */
+    public static Boolean isValidProjectName(String currentProject, ProjectList pList)
+    {
+        if (currentProject.trim().isEmpty() || pList.getpList().keySet().contains(currentProject))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * asks the user to enter a project name, handles the user input and checks if input is correct
+     * @param pList ProjectList needs to be checked to know which projects are already created
+     * @return the input project name
+     */
+    private static String enterProjectName(ProjectList pList)
+    {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("\n\tEnter the project name: ");
         String currentName = sc.nextLine();
 
-        while (currentName.trim().isEmpty())
+        while (isValidProjectName(currentName, pList))
         {
-            System.out.println("\tPlease enter a valid name");
+            System.out.println("\tPlease enter a valid name. Don't use the same name twice!");
             System.out.print("\n\tEnter the project name: ");
             currentName = sc.nextLine();
         }
+
+        return currentName;
+    }
+
+    /**
+     * asks the user to enter a project size, handles the user input and checks if input is correct
+     * @return int input project size
+     */
+    private static int enterProjectSize()
+    {
+
+        Scanner sc = new Scanner(System.in);
 
         int currentNumber = 0;
 
@@ -92,14 +154,20 @@ public class Project
             }
         }
 
-        //Creating a new Project object with the specified name and team size
-        Project currentProject = new Project(currentName, currentNumber);
-        sc.nextLine();
-        System.out.println();
+        return currentNumber;
+    }
+
+    /**
+     * asks the user to enter the names of the teammembers of the current project
+     * handles the user input and checks if input is correct
+     */
+    private void enterTeamNames()
+    {
+        Scanner sc = new Scanner(System.in);
 
         //Looping over the size of the team asking the user to put in
         //the needed information about the members of the team
-        for (int i = 1; i <= currentProject.getTeamSize(); i++)
+        for (int i = 1; i <= getTeamSize(); i++)
         {
 
             String currentMemberName;
@@ -107,10 +175,9 @@ public class Project
             System.out.print("\t\tEnter the name of team member " + i + ": ");
             currentMemberName = sc.nextLine();
 
-            while (currentMemberName.trim().isEmpty() || currentProject.nameList.contains(currentMemberName) ||
-                    currentMemberName.equals("-1"))
+            while (Member.isValidMemberName(currentMemberName, this))
             {
-                System.out.println("\t\tEnter a valid name! Don't use the same name twice!");
+                System.out.println("\t\tEnter a valid name! Don't use any digits and avoid existing names!");
                 System.out.print("\t\tEnter the name of team member " + i + ": ");
                 currentMemberName = sc.nextLine();
             }
@@ -118,64 +185,50 @@ public class Project
             //creating a new Member objects and adding it to the teamList
             //of the current project.
             Member currentMember = new Member(currentMemberName);
-            currentProject.addTeamMember(currentMember);
-            currentProject.setNameList();
+            addTeamMember(currentMember);
+            setNameList();
         }
-
-        System.out.print("\n\tYou successfully created a new project!\n" +
-                "\tPress enter to continue...");
-
-        //waiting for the user to enter any key to continue the program
-        try
-        {
-            Utilities.finishMethod();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            System.out.println("There was no user input!");
-        }
-
-        return currentProject;
 
     }
+
 
     /**
-     * Method that prints out the allocated grades for the members of a specified project that
-     * has already been created
-     * @param projectList HashMap<String, Project> HashMap of created projects taking in the name of the
-     *                    project as a key and the project itself as a value
-     * @throws Exception throws exception if Utilities.chooseProject() throws Exception
+     * Method that calculates the allocated shares of a project with exactly three members.
+     * @param p Project for which the grades should be calculated
+     * @return HashMap<String, Double> that contains the calculated shares of the members
      */
-    public static void show(HashMap<String, Project> projectList) throws Exception, NullPointerException
+    public static HashMap<String, Double> gradeCalculator(Project p)
     {
-        Project currentProject = Utilities.chooseProject(projectList);
-        System.out.println("\tThere are " + currentProject.getTeamSize() + " team members.\n\n");
+        Double[][] voteMatrix = new Double[3][3];
+        Double[][] voteRatioMatrix = new Double[3][3];
 
-        HashMap<String, Double> allocatedGrades = Utilities.gradeCalculator(currentProject);
+        ArrayList<Member> teamList = p.getTeamList();
 
-        System.out.println("\tThe point allocation based on votes is: \n");
-
-        for (String name: allocatedGrades.keySet())
-        {
-            System.out.println("\t\t" + name + "\t" + allocatedGrades.get(name));
+        for (int i = 0; i < teamList.size(); i++) {
+            for (int j = 0; j < teamList.size(); j ++) {
+                if (i != j) {
+                    voteMatrix[i][j] = (teamList.get(i).getVoteMap().get(p.getName()).get(teamList.get(j).getName())/100);
+                }
+            }
         }
 
-        System.out.print("\n\tPress enter to continue...");
+        voteRatioMatrix[0][1] = (voteMatrix[0][1]/voteMatrix[0][2]);
+        voteRatioMatrix[0][2] = (voteMatrix[0][2]/voteMatrix[0][1]);
+        voteRatioMatrix[1][0] = (voteMatrix[1][0]/voteMatrix[1][2]);
+        voteRatioMatrix[1][2] = (voteMatrix[1][2]/voteMatrix[1][0]);
+        voteRatioMatrix[2][0] = (voteMatrix[2][0]/voteMatrix[2][1]);
+        voteRatioMatrix[2][1] = (voteMatrix[2][1]/voteMatrix[2][0]);
 
-        //waiting for the user to enter any key to continue the program
-        try
-        {
-            Utilities.finishMethod();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            System.out.println("There was no user input!");
-        }
+
+        HashMap<String, Double> shares = new HashMap<>();
+        shares.put(teamList.get(0).getName(), 1/(1+voteRatioMatrix[1][2]+voteRatioMatrix[2][1]));
+        shares.put(teamList.get(1).getName(), 1/(1+voteRatioMatrix[0][2]+voteRatioMatrix[2][0]));
+        shares.put(teamList.get(2).getName(), 1/(1+voteRatioMatrix[0][1]+voteRatioMatrix[1][0]));
+
+        return shares;
+
 
     }
-
 
     /**
      * method that adds a Member object to the teamList of a certain project

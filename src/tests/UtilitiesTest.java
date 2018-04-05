@@ -2,7 +2,6 @@ package tests;
 
 import FairGradeAllocator.Member;
 import FairGradeAllocator.Project;
-import FairGradeAllocator.Utilities;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,7 +11,8 @@ public class UtilitiesTest {
 
 
     @Test
-    public void gradeCalculator() {
+    public void gradeCalculator()
+    {
         Project p = new Project("Test Project", 3);
         Member memberA = new Member("A");
         Member memberB = new Member("B");
@@ -45,12 +45,10 @@ public class UtilitiesTest {
         voteMap.put("Test Project", votes);
         memberC.setVoteMap(voteMap);
 
-        HashMap<String, Double> results = Utilities.gradeCalculator(p);
+        HashMap<String, Double> results = Project.gradeCalculator(p);
 
         Assert.assertEquals(results.get("A"), 0.23, 0.01);
         Assert.assertEquals(results.get("B"), 0.38, 0.01);
         Assert.assertEquals(results.get("C"), 0.39, 0.01);
-
-
     }
 }
